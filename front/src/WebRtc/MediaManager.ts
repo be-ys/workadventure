@@ -182,6 +182,9 @@ export class MediaManager {
         }
     }
 
+    /**
+     * @deprecated
+     */
     public addNewMessage(name: string, message: string, isMe: boolean = false) {
         discussionManager.addMessage(name, message, isMe);
 
