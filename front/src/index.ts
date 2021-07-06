@@ -4,6 +4,7 @@ import "../style/index.scss";
 
 import {DEBUG_MODE, isMobile} from "./Enum/EnvironmentVariable";
 import {LoginScene} from "./Phaser/Login/LoginScene";
+import {EmailScene} from "./Phaser/Login/EmailScene";
 import {ReconnectingScene} from "./Phaser/Reconnecting/ReconnectingScene";
 import {SelectCharacterScene} from "./Phaser/Login/SelectCharacterScene";
 import {SelectCompanionScene} from "./Phaser/Login/SelectCompanionScene";
@@ -88,6 +89,7 @@ const config: GameConfig = {
     },
     scene: [EntryScene,
         LoginScene,
+        EmailScene,
         isMobile() ? SelectCharacterMobileScene : SelectCharacterScene,
         SelectCompanionScene,
         EnableCameraScene,

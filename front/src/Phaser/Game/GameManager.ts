@@ -22,6 +22,7 @@ export interface HasMovedEvent {
  */
 export class GameManager {
     private playerName: string|null;
+    private playerEmail: string|null;
     private characterLayers: string[]|null;
     private companion: string|null;
     private startRoom!:Room;
@@ -29,6 +30,7 @@ export class GameManager {
 
     constructor() {
         this.playerName = localUserStore.getName();
+        this.playerEmail = localUserStore.getEmail();
         this.characterLayers = localUserStore.getCharacterLayers();
         this.companion = localUserStore.getCompanion();
     }
@@ -51,6 +53,11 @@ export class GameManager {
         localUserStore.setName(name);
     }
 
+    public setPlayerEmail(email: string): void {
+        this.playerEmail = email;
+        localUserStore.setEmail(email);
+    }
+
     public setCharacterLayers(layers: string[]): void {
         this.characterLayers = layers;
         localUserStore.setCharacterLayers(layers);
@@ -58,6 +65,10 @@ export class GameManager {
 
     getPlayerName(): string|null {
         return this.playerName;
+    }
+
+    getPlayerEmail(): string|null {
+        return this.playerEmail;
     }
 
     getCharacterLayers(): string[] {
@@ -96,6 +107,12 @@ export class GameManager {
             helpCameraSettingsVisibleStore.set(true);
             localUserStore.setHelpCameraSettingsShown();
         }
+        // if (get(requestedMicrophoneState)) {
+        //     requestedMicrophoneState.disableMicrophone();
+        // }
+        // if (get(requestedCameraState)) {
+        //     requestedCameraState.disableWebcam();
+        // }
     }
 
     public gameSceneIsCreated(scene: GameScene) {

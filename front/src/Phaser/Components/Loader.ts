@@ -3,7 +3,7 @@ import ImageFrameConfig = Phaser.Types.Loader.FileTypes.ImageFrameConfig;
 const LogoNameIndex: string = 'logoLoading';
 const TextName: string = 'Loading...';
 const LogoResource: string = 'resources/logos/logo.png';
-const LogoFrame: ImageFrameConfig = {frameWidth: 307, frameHeight: 59};
+const LogoFrame: ImageFrameConfig = {frameWidth: 471, frameHeight: 160};
 
 export const addLoader = (scene: Phaser.Scene): void => {
     // If there is nothing to load, do not display the loader.
@@ -17,7 +17,7 @@ export const addLoader = (scene: Phaser.Scene): void => {
 
     const promiseLoadLogoTexture = new Promise<Phaser.GameObjects.Image>((res) => {
         if(scene.load.textureManager.exists(LogoNameIndex)){
-            return res(scene.add.image(scene.game.renderer.width / 2, scene.game.renderer.height / 2 - 150, LogoNameIndex));
+            return res(scene.add.image(scene.game.renderer.width / 2, scene.game.renderer.height / 2 - 50, LogoNameIndex));
         }else{
             //add loading if logo image is not ready
             loadingText = scene.add.text(scene.game.renderer.width / 2, scene.game.renderer.height / 2 - 50, TextName);
@@ -27,7 +27,7 @@ export const addLoader = (scene: Phaser.Scene): void => {
             if(loadingText){
                 loadingText.destroy();
             }
-            return res(scene.add.image(scene.game.renderer.width / 2, scene.game.renderer.height / 2 - 150, LogoNameIndex));
+            return res(scene.add.image(scene.game.renderer.width / 2, scene.game.renderer.height / 2 - 50, LogoNameIndex));
         });
     });
 

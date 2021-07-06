@@ -1,24 +1,29 @@
 <style>
-    #gameMenu main{
+    #gameMenu main {
         margin-top: 15px;
     }
+    
     #gameMenu button {
         background-color: black;
         color: white;
         border-radius: 7px;
         padding-bottom: 2px;
     }
+    
     #gameMenu section {
         margin: 10px;
     }
-    section#socialLinks{
+    
+    section#socialLinks {
         position: absolute;
         margin-bottom: 0;
     }
-    section#socialLinks img{
+    
+    section#socialLinks img {
         width: 32px;
         cursor: url('/resources/logos/cursor_pointer.png'), pointer;
     }
+    
     @media only screen and (max-height: 700px) {
         #gameMenu main {
             display: flex;
@@ -27,10 +32,10 @@
             flex-wrap: wrap;
             margin-top: 0;
         }
-        #gameMenu section{
+        #gameMenu section {
             margin: 2px;
         }
-        section#socialLinks{
+        section#socialLinks {
             position: relative;
         }
     }
@@ -46,6 +51,9 @@
             <button id="changeNameButton">Edit name</button>
         </section>
         <section>
+            <button id="changeEmailButton">Edit email</button>
+        </section>
+        <section>
             <button id="changeSkinButton">Edit skin</button>
         </section>
         <section>
@@ -57,15 +65,11 @@
         <section>
             <button id="toggleFullscreen">Toggle fullscreen</button>
         </section>
-        <section>
-            <button id="sparkButton">Create map</button>
-        </section>
         <section id="adminConsoleSection" hidden>
             <button id="adminConsoleButton">Admin console</button>
         </section>
         <section id="socialLinks" hidden>
-            <a class="not-button" href="https://www.facebook.com/workadventure.WA" target="_blank"><img class="not-button" src="/resources/objects/facebook-icon.png"/></a>
-            <a class="not-button" href="https://twitter.com/Workadventure_" target="_blank"><img class="not-button" src="/resources/objects/twitter-icon.png"/></a>
+            <a class="not-button" href="http://www.twitter.com/be_ys_cloud" target="_blank"><img class="not-button" src="/resources/objects/twitter-icon.png" /></a>
         </section>
     </main>
 </div>

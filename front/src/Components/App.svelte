@@ -13,6 +13,8 @@
     import CustomCharacterScene from "./CustomCharacterScene/CustomCharacterScene.svelte";
     import LoginScene from "./Login/LoginScene.svelte";
     import {loginSceneVisibleStore} from "../Stores/LoginSceneStore";
+    import EmailScene from "./Login/EmailScene.svelte";
+    import {emailSceneVisibleStore} from "../Stores/EmailSceneStore";
     import EnableCameraScene from "./EnableCamera/EnableCameraScene.svelte";
     import VisitCard from "./VisitCard/VisitCard.svelte";
     import {requestVisitCardsStore} from "../Stores/GameStore";
@@ -31,6 +33,11 @@
     {#if $loginSceneVisibleStore}
         <div class="scrollable">
             <LoginScene game={game}></LoginScene>
+        </div>
+    {/if}
+    {#if $emailSceneVisibleStore}
+        <div class="scrollable">
+            <EmailScene game={game}></EmailScene>
         </div>
     {/if}
     {#if $selectCharacterSceneVisibleStore}

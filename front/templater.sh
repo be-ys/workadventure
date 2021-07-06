@@ -24,3 +24,5 @@ fi
 echo "Templating ${generated_file_index} from ${template_file_index}"
 sed "/<!-- TRACK CODE -->/r ${tmp_trackcodefile}" "${template_file_index}" > "${generated_file_index}"
 rm "${tmp_trackcodefile}"
+
+sed -i 's/sockPort: 80,/sockPort: 443,/g' ./webpack.config.ts

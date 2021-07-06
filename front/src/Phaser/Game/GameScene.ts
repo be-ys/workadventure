@@ -184,6 +184,7 @@ export class GameScene extends DirtyScene implements CenterListener {
     private startLayerName!: string | null;
     private openChatIcon!: OpenChatIcon;
     private playerName!: string;
+    private playerEmail!: string;
     private characterLayers!: string[];
     private companion!: string|null;
     private messageSubscription: Subscription|null = null;
@@ -192,7 +193,6 @@ export class GameScene extends DirtyScene implements CenterListener {
     private pinchManager: PinchManager|undefined;
     private mapTransitioning: boolean = false; //used to prevent transitions happenning at the same time.
     private emoteManager!: EmoteManager;
-    private preloading: boolean = true;
 
     constructor(private room: Room, MapUrlFile: string, customKey?: string|undefined) {
         super({
@@ -260,15 +260,11 @@ export class GameScene extends DirtyScene implements CenterListener {
                 return;
             }
 
-            //once preloading is over, we don't want loading errors to crash the game, so we need to disable this behavior after preloading.
-            console.error('Error when loading: ', file);
-            if (this.preloading) {
-                this.scene.start(ErrorSceneName, {
-                    title: 'Network error',
-                    subTitle: 'An error occurred while loading resource:',
-                    message: this.originalMapUrl ?? file.src
-                });
-            }
+            this.scene.start(ErrorSceneName, {
+                title: 'Network error',
+                subTitle: 'An error occurred while loading resource:',
+                message: this.originalMapUrl ?? file.src
+            });
         });
         this.load.on('filecomplete-tilemapJSON-'+this.MapUrlFile, (key: string, type: string, data: unknown) => {
             this.onMapLoad(data);
@@ -393,7 +389,6 @@ export class GameScene extends DirtyScene implements CenterListener {
 
     //hook create scene
     create(): void {
-        this.preloading = false;
         this.trackDirtyAnims();
 
         gameManager.gameSceneIsCreated(this);
@@ -411,6 +406,10 @@ export class GameScene extends DirtyScene implements CenterListener {
             throw 'playerName is not set';
         }
         this.playerName = playerName;
+        const playerEmail = gameManager.getPlayerEmail();
+        if (playerEmail) {
+            this.playerEmail = playerEmail;
+        }
         this.characterLayers = gameManager.getCharacterLayers();
         this.companion = gameManager.getCompanion();
 
@@ -750,7 +749,10 @@ export class GameScene extends DirtyScene implements CenterListener {
                 coWebsiteManager.closeCoWebsite();
             }else{
                 const openWebsiteFunction = () => {
-                    coWebsiteManager.loadCoWebsite(newValue as string, this.MapUrlFile, allProps.get('openWebsiteAllowApi') as boolean | undefined, allProps.get('openWebsitePolicy') as string | undefined);
+                    const properties = new Map(allProps);
+                    properties.set('playerName', this.playerName);
+                    properties.set('playerEmail', this.playerEmail || 'unknown');
+                    coWebsiteManager.loadCoWebsite(newValue as string, this.MapUrlFile, allProps.get('openWebsiteAllowApi') as boolean | undefined, allProps.get('openWebsitePolicy') as string | undefined, properties);
                     layoutManager.removeActionButton('openWebsite', this.userInputManager);
                 };
 
@@ -971,6 +973,7 @@ ${escapedMessage}
     public cleanupClosingScene(): void {
         // stop playing audio, close any open website, stop any open Jitsi
         coWebsiteManager.closeCoWebsite();
+
         // Stop the script, if any
         const scripts = this.getScriptUrls(this.mapFile);
         for (const script of scripts) {

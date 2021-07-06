@@ -1,6 +1,7 @@
 import {areCharacterLayersValid, isUserNameValid, LocalUser} from "./LocalUser";
 
 const playerNameKey =           'playerName';
+const playerEmailKey =          'playerEmail';
 const selectedPlayerKey =       'selectedPlayer';
 const customCursorPositionKey = 'customCursorPosition';
 const characterLayersKey =      'characterLayers';
@@ -27,6 +28,14 @@ class LocalUserStore {
     getName(): string|null {
         const value = localStorage.getItem(playerNameKey) || '';
         return isUserNameValid(value) ? value : null;
+    }
+
+    setEmail(name:string): void {
+        localStorage.setItem(playerEmailKey, name);
+    }
+    getEmail(): string|null {
+        const value = localStorage.getItem(playerEmailKey) || '';
+        return value;
     }
 
     setPlayerCharacterIndex(playerCharacterIndex: number): void {

@@ -39,7 +39,7 @@ class CoWebsiteManager {
     private cowebsiteMainDom: HTMLDivElement;
     private cowebsiteAsideDom: HTMLDivElement;
     private previousTouchMoveCoordinates: TouchMoveCoordinates|null = null; //only use on touchscreens to track touch movement
-
+    
     get width(): number {
         return this.cowebsiteDiv.clientWidth;
     }
@@ -153,8 +153,8 @@ class CoWebsiteManager {
     }
 
     public resetStyle() {
-        this.cowebsiteDiv.style.width = '';
-        this.cowebsiteDiv.style.height = '';
+        this.cowebsiteDiv.style.width = this.cowebsiteDiv.getAttribute('width') || ''
+        this.cowebsiteDiv.style.height = this.cowebsiteDiv.getAttribute('height') || '';
     }
 
     private getIframeDom(): HTMLIFrameElement {
@@ -163,12 +163,26 @@ class CoWebsiteManager {
         return iframe;
     }
 
-    public loadCoWebsite(url: string, base: string, allowApi?: boolean, allowPolicy?: string): void {
+    public loadCoWebsite(url: string, base: string, allowApi?: boolean, allowPolicy?: string, properties?: Map<string, string | boolean | number>): void {
         this.load();
         this.cowebsiteMainDom.innerHTML = ``;
 
         const iframe = document.createElement('iframe');
         iframe.id = 'cowebsite-iframe';
+        if (properties) {
+            properties.forEach((value, key) => {
+                url = url.replace('$'+key, value as string);
+            });
+            const unitexp = RegExp('(px|em|%)$', 'g');
+            const widthWebsite = properties.get('widthWebsite');
+            if (widthWebsite) {
+                this.cowebsiteDiv.setAttribute('width', widthWebsite as string);
+            }
+            const heightWebsite = properties.get('heightWebsite');
+            if (heightWebsite) {
+                this.cowebsiteDiv.setAttribute('height', heightWebsite as string);
+            }
+        }
         iframe.src = (new URL(url, base)).toString();
         if (allowPolicy) {
             iframe.allow = allowPolicy;
@@ -190,7 +204,7 @@ class CoWebsiteManager {
             }, animationTime)
         }).catch((err) => {
             console.error('Error loadCoWebsite => ', err);
-            this.closeCoWebsite()
+            this.closeCoWebsite();
         });
     }
 
@@ -221,7 +235,9 @@ class CoWebsiteManager {
                 iframeListener.unregisterIframe(iframe);
             }
             setTimeout(() => {
-                this.cowebsiteMainDom.innerHTML = ``;
+                if (iframe == this.cowebsiteDiv.querySelector('iframe')) {
+                    this.cowebsiteMainDom.innerHTML = ``;
+                }
                 resolve();
             }, animationTime)
         }));

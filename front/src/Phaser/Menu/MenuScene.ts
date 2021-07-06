@@ -1,4 +1,5 @@
 import {LoginScene, LoginSceneName} from "../Login/LoginScene";
+import {EmailScene, EmailSceneName} from "../Login/EmailScene";
 import {SelectCharacterScene, SelectCharacterSceneName} from "../Login/SelectCharacterScene";
 import {SelectCompanionScene, SelectCompanionSceneName} from "../Login/SelectCompanionScene";
 import {gameManager} from "../Game/GameManager";
@@ -279,6 +280,10 @@ export class MenuScene extends Phaser.Scene {
             case 'changeNameButton':
                 this.closeSideMenu();
                 gameManager.leaveGame(this, LoginSceneName, new LoginScene());
+                break;
+            case 'changeEmailButton':
+                this.closeSideMenu();
+                gameManager.leaveGame(this, EmailSceneName, new EmailScene());
                 break;
             case 'sparkButton':
                 this.gotToCreateMapPage();

@@ -315,7 +315,9 @@ export class RoomConnection implements RoomConnection {
         const clientToServerMessage = new ClientToServerMessage();
         clientToServerMessage.setViewportmessage(viewportMessage);
 
-        this.socket.send(clientToServerMessage.serializeBinary().buffer);
+        if (!this.closed) {
+            this.socket.send(clientToServerMessage.serializeBinary().buffer);
+        }
     }
 
     public onUserJoins(callback: (message: MessageUserJoined) => void): void {
